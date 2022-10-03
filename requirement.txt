@@ -1,0 +1,4 @@
+fastAPI==0.85.0
+discord==2.0.0
+uvicorn==0.18.3
+discord-py-interactions==4.3.1
