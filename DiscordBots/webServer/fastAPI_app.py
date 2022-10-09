@@ -3,12 +3,10 @@ from typing import Union
 
 from discord import Message
 from discord.ext.commands import Context
-from discord.ui import View
 from fastapi import FastAPI
 from pydantic import BaseModel
 
 import env
-from DiscordBots.clean_example import bot
 
 app = FastAPI()
 
@@ -19,19 +17,26 @@ class Item(BaseModel):
     is_offer: Union[bool, None] = None
 
 
+@app.on_event("startup")
+async def startup_event():
+    # from DiscordBots.clean_example import bot
+    # asyncio.create_task(bot.start(env.DISCORD_TOKEN))
+    # bot.get_context()
+    pass
+
+
 @app.get("/")
 async def connect_bot():
-    await bot.start(env.DISCORD_TOKEN)
+    await startup_event()
     return {"status": "bot connected"}
 
 
 @app.get("/interactions")
 def read_root():
-    from DiscordBots.clean_example import bot, join
     message = Message()
-    bot.get_context()
-    ctx = Context(message=message, bot=bot, view=None)
-    join(ctx)
+    # bot.get_context()
+    # ctx = Context(message=message, bot=bot, view=None)
+    # join(ctx)
 
 
 @app.get("/items/{item_id}")
